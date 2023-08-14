@@ -21,9 +21,9 @@ async def on_ready():
     print(f'Logged in as {bot.user.name} ({bot.user.id})')
 
 
-@bot.command()
-async def hello(ctx):
-    await ctx.send('Hello, World')
+@bot.event
+async def on_member_join(member: discord.Member):
+    await member.send(f'Welcome {member.name}!')
 
 
 bot.run(os.getenv('BOT_TOEKN'))
