@@ -38,5 +38,3 @@ def generate_captcha() -> Tuple[str, str]:
         e = f'{loperand} {operation[0]} {roperand}'
 
     return (e, str(val))
-
-print(generate_captcha())
