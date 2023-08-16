@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import asyncio
+import captcha
 import datetime
 import discord
 import discord.ext.commands
@@ -29,14 +30,17 @@ async def on_member_join(member: discord.Member):
     def check(m):
         return m.author.id == member.id and bool(m.content)
 
-    await member.send(f'Welcome {member.name}!\nPlease solve the captcha')
     await member.timeout(datetime.timedelta(minutes=1))
+    cap = captcha.generate_captcha()
+
+    await member.send(f'Welcome {member.name}!\nPlease solve the captcha')
+    await member.send(f'What is the result of the following statement?\n{cap[0]}\n\n'
+                      'You only have one chance to answer, please be careful.')
 
     try:
         msg = await bot.wait_for('message', check=check, timeout=60)
-        print(msg.content.encode())
-        if msg.content == '1234':
-            await member.send('Enjoy the server')
+        if msg.content == cap[1]:
+            await member.send('Thank you, enjoy the server.')
             await member.timeout(datetime.timedelta())
         else:
             raise asyncio.TimeoutError()
