@@ -3,7 +3,7 @@ from typing import Tuple
 
 
 def div_generator(start, end, flag) -> Tuple[int, int, int]:
-    devisiors = set()
+    divisors = set()
     num = start
     for i in range(flag):
         s = random.randint(2, 10)
@@ -11,9 +11,9 @@ def div_generator(start, end, flag) -> Tuple[int, int, int]:
             break
 
         num *= s
-        devisiors.add(s)
+        divisors.add(s)
 
-    _ = random.choice(tuple(devisiors))
+    _ = random.choice(tuple(divisors))
     return (num, _, num // _)
 
 
