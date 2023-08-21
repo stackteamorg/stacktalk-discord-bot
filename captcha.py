@@ -1,8 +1,7 @@
 import random
-from typing import Tuple
 
 
-def div_generator(start, end, flag) -> Tuple[int, int, int]:
+async def div_generator(start, end, flag):
     divisors = set()
     num = start
     for i in range(flag):
@@ -18,13 +17,14 @@ def div_generator(start, end, flag) -> Tuple[int, int, int]:
 
 
 captcha_data = {
-        '+': (1, 20, True, None),
-        '-': (1, 20, False, None),
-        '*': (1, 10, True, None),
-        '/': (1, 100, 3, div_generator)}
+    '+': (1, 20, True, None),
+    '-': (1, 20, False, None),
+    '*': (1, 10, True, None),
+    '/': (1, 100, 3, div_generator)
+}
 
 
-def generate_captcha() -> Tuple[str, str]:
+async def generate_captcha():
     operation = random.choice(tuple(captcha_data.items()))
     if operation[1][3] is None:
         loperand = random.randint(operation[1][0], operation[1][1])
@@ -34,7 +34,7 @@ def generate_captcha() -> Tuple[str, str]:
         val = eval(e)
 
     else:
-        loperand, roperand, val = operation[1][3](operation[1][0], operation[1][1], operation[1][2])
+        loperand, roperand, val = await operation[1][3](operation[1][0], operation[1][1], operation[1][2])
         e = f'{loperand} {operation[0]} {roperand}'
 
     return (e, str(val))
